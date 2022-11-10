@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.http import HttpResponse
 
 from .models import Todo,Todoform
 def HomePage(request):
@@ -8,6 +9,7 @@ def HomePage(request):
         'todo': tododatas,
         'form': Todoform
     }
+
     if request.method == 'POST':
         data = request.POST
         form = Todoform(data)
@@ -16,3 +18,20 @@ def HomePage(request):
             return redirect("/")
         return render(request, 'todoapp/index.html')
     return render(request, 'todoapp/index.html', {"data": content})
+
+def Edittodo(request, id):
+    try:
+        tdata = Todo.objects.get(id=id)
+        tdata.delete()
+
+        return HttpResponse("<h1> ToDo is Deleted! </h1>")
+    except:
+        return redirect("/")
+    return HttpResponse(f"<h1> {id}</h1>")
+
+def Updatetodo(request, id):
+    try:
+        tdata = Todo.objects.get(id = id)
+        return HttpResponse(f"{id}")
+    except:
+        return redirect("/")
