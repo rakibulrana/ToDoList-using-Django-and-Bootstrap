@@ -29,9 +29,17 @@ def Edittodo(request, id):
         return redirect("/")
     return HttpResponse(f"<h1> {id}</h1>")
 
-def Updatetodo(request, id):
+def Updatetodo(request,id):
     try:
         tdata = Todo.objects.get(id = id)
-        return HttpResponse(f"{id}")
+        return render(request, "todoapp/update.html")
     except:
         return redirect("/")
+def Update(request):
+
+    if request.method == "POST":
+        data = request.POST
+        print(data)
+        return redirect("/")
+    else:
+        return HttpResponse("<h1> Something is Wrong!! Try Again.</h1>")
